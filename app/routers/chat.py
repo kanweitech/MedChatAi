@@ -53,7 +53,8 @@ async def chat_with_patient(request: ChatRequest):
     cleaned_reply = clean_ai_text(ai_reply)
 
     # Step 4: Let the prescriber recommend a drug (rule-based or AI-assisted)
-    medication_suggestion = prescriber.recommend(request.message)
+    medication_suggestion = await prescriber.recommend(request.message, request.age, request.sex)
+
 
     # Step 5: Return combined response
     return {
