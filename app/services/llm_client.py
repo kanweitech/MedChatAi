@@ -15,7 +15,11 @@ class LLMClient:
         
 
         try:
-            self.llm = ChatGoogleGenerativeAI(model=self.model, api_key=self.api_key)
+            self.llm = ChatGoogleGenerativeAI(
+                model=self.model, 
+                api_key=self.api_key,
+                temperature=0.7 # Controls creativity
+            )
             print(f"✅ Gemini LLM initialized with model: {self.model}")
         except Exception as e:
             print(f"❌ Error initializing LLM: {e}")
@@ -27,7 +31,12 @@ class LLMClient:
         try:
             
             response = await self.llm.ainvoke(prompt)
-            return response.content
+            content = response.content if hasattr(response, "content") else str(response)
+
+            # Clean up unnecessary whitespace, line breaks, and bullet artifacts
+            clean_response = " ".join(content.split())
+            return clean_response
+            
         except Exception as e:
             print(f"❌ Gemini API Error: {e}")
             return "Sorry, could not process your request."
