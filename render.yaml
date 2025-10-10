@@ -1,32 +1,24 @@
+# render.yaml
 services:
   - type: web
-    name: medchat-backend
+    name: medchat-ai
     env: python
-    region: oregon
-    branch: main
-    buildCommand: pip install -r requirements.txt
-    startCommand: bash start.sh
+    plan: free
+
+    # 👇 These are the setup commands Render runs before your app starts
+    buildCommand: |
+      chmod +x start.sh
+      uv sync
+
+    # 👇 Render runs this to start your combined app (FastAPI + Streamlit)
+    startCommand: ./start.sh
+
+    # 👇 Environment variables (add your real Gemini API key in Render dashboard)
     envVars:
       - key: GOOGLE_API_KEY
-        sync: false  # you will add this manually via Render dashboard
-      - key: GOOGLE_GENAI_MODEL
-        value: models/gemini-2.5-flash
-      - key: PYTHONUNBUFFERED
-        value: "1"
-      - key: LOG_LEVEL
-        value: info
-      - key: RENDER_SERVICE_NAME
-        value: medchat-backend
+        sync: false
+      - key: PORT
+        value: 10000  # Render assigns this automatically; just in case
 
-  - type: web
-    name: medchat-frontend
-    env: python
+    # 👇 Optional: specify region (helps with latency)
     region: oregon
-    branch: main
-    buildCommand: pip install -r requirements.txt
-    startCommand: bash start.sh
-    envVars:
-      - key: BACKEND_URL
-        value: https://medchat-backend.onrender.com
-      - key: RENDER_SERVICE_NAME
-        value: medchat-frontend
