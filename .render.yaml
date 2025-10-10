@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: medchat-backend
+    env: python
+    region: oregon
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash start.sh
+    envVars:
+      - key: GOOGLE_API_KEY
+        sync: false  # you will add this manually via Render dashboard
+      - key: GOOGLE_GENAI_MODEL
+        value: models/gemini-2.5-flash
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: LOG_LEVEL
+        value: info
+      - key: RENDER_SERVICE_NAME
+        value: medchat-backend
+
+  - type: web
+    name: medchat-frontend
+    env: python
+    region: oregon
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash start.sh
+    envVars:
+      - key: BACKEND_URL
+        value: https://medchat-backend.onrender.com
+      - key: RENDER_SERVICE_NAME
+        value: medchat-frontend
