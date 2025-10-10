@@ -1,24 +1,18 @@
-# render.yaml
 services:
+  # FastAPI Backend
   - type: web
-    name: medchat-ai
+    name: medchat-api
     env: python
     plan: free
+    buildCommand: "uv sync"
+    startCommand: "./start.sh"
+    autoDeploy: true
 
-    # 👇 These are the setup commands Render runs before your app starts
-    buildCommand: |
-      chmod +x start.sh
-      uv sync
-
-    # 👇 Render runs this to start your combined app (FastAPI + Streamlit)
-    startCommand: ./start.sh
-
-    # 👇 Environment variables (add your real Gemini API key in Render dashboard)
-    envVars:
-      - key: GOOGLE_API_KEY
-        sync: false
-      - key: PORT
-        value: 10000  # Render assigns this automatically; just in case
-
-    # 👇 Optional: specify region (helps with latency)
-    region: oregon
+  # Streamlit Frontend
+  - type: web
+    name: medchat-ui
+    env: python
+    plan: free
+    buildCommand: "uv sync"
+    startCommand: "streamlit run app/streamlit_app.py --server.port $PORT --server.address 0.0.0.0"
+    autoDeploy: true
