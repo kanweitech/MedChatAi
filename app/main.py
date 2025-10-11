@@ -10,6 +10,6 @@ app.middleware("http")(log_requests)
 
 app.include_router(chat_router)
 
-@app.get("/health")
+@app.get("/")
 async def health():
-    return {"message": "Welcome to MedChat AI 🚀"}
+    return {"message": "MedChat AI backend is running successfully. 🚀"}
