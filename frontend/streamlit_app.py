@@ -79,7 +79,7 @@ if submitted:
         with st.spinner("Analyzing your symptoms..."):
             try:
                 payload = {"age": age, "sex": sex.lower(), "message": message}
-                response = requests.post(BACKEND_URL, json=payload, timeout=30)
+                response = requests.post(BACKEND_URL, json=payload, timeout=60)
                 if response.status_code == 200:
                     data = response.json()
                     ai_analysis = data.get("ai_analysis", "No analysis provided.")
