@@ -11,8 +11,9 @@ st.set_page_config(
     layout="centered",
 )
 
-# Backend URL (set in Render environment)
-BACKEND_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000/chat/")
+# ✅ Use Render environment variable for the backend API
+# Change this key to match what you’ll set in Render (FASTAPI_URL)
+BACKEND_URL = os.getenv("FASTAPI_URL", "http://127.0.0.1:8000/chat/")
 
 # -----------------------------
 # 💡 Sidebar - App Info
@@ -78,7 +79,7 @@ if submitted:
         with st.spinner("Analyzing your symptoms..."):
             try:
                 payload = {"age": age, "sex": sex.lower(), "message": message}
-                response = requests.post(BACKEND_URL, json=payload)
+                response = requests.post(BACKEND_URL, json=payload, timeout=30)
                 if response.status_code == 200:
                     data = response.json()
                     ai_analysis = data.get("ai_analysis", "No analysis provided.")
