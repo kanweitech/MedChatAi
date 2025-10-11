@@ -6,7 +6,7 @@ load_dotenv()
 
 class LLMClient:
     def __init__(self):
-        self.model = os.getenv("GOOGLE_GENAI_MODEL", "models/gemini-1.5-flash")
+        self.model = os.getenv("GOOGLE_GENAI_MODEL", "models/gemini-2.5-pro")
         self.api_key = os.getenv("GOOGLE_API_KEY")
 
         if not self.api_key:
