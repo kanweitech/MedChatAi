@@ -7,4 +7,4 @@ app.include_router(chat_router)
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    return {"message": "Welcome to MedChat AI 🚀"}
